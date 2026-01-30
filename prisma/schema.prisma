@@ -1,0 +1,140 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+ id String @id @default(uuid())
+ name String 
+ email String @unique 
+ password String 
+ created_at DateTime @default(now())
+ updated_at DateTime @updatedAt
+ bookings Booking[]
+}
+
+enum EventType {
+  MOVIE
+  CONCERT
+  PLAY
+}
+
+enum Lang {
+  ENGLISH
+  HINDI
+  HINGLISH
+}
+
+model Event {
+  id String @id @default(uuid())
+  title String 
+  description String? 
+  durationMin  Int
+  eventType EventType
+  lang Lang
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  shows Show[]
+  @@index([title, eventType, lang])
+}
+
+
+model Venue {
+  id String @id @default(uuid())
+  name String 
+  city String
+  address String 
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  shows Show[]
+  seats Seat[]
+  @@index([name, city])
+}
+
+model Show {
+  id String @id @default(uuid())
+  eventId String
+  venueId String
+  startTime DateTime 
+  endTime DateTime 
+  price Decimal @db.Decimal(10,2)
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  venue Venue @relation(fields: [venueId], references: [id])
+  event Event @relation(fields: [eventId], references: [id])
+  showBooking Booking[]
+  showSeat ShowSeat[]
+  @@unique([eventId, venueId, startTime])
+}
+
+enum SeatType {
+  REGULAR
+  PREMIUM
+}
+
+model Seat {
+  id String @id @default(uuid())
+  venueId String
+  seatNumber Int 
+  seatType SeatType
+  venue Venue @relation(fields: [venueId], references: [id])
+  seatTicket Ticket[]
+  showSeats ShowSeat[]
+  @@unique([venueId, seatNumber])
+}
+
+enum SeatStatus {
+  AVAILABLE 
+  LOCKED 
+  BOOKED
+}
+
+model ShowSeat {
+  id String @id @default(uuid())
+  showId String
+  seatId String
+  price Decimal @db.Decimal(10,2)
+  status SeatStatus
+  show Show @relation(fields: [showId], references: [id])
+  seat Seat @relation(fields: [seatId], references: [id])
+  @@unique([showId, seatId])
+}
+
+enum Status {
+  PENDING
+  CONFIRMED
+  CANCELLED
+  EXPIRED
+}
+
+model Booking {
+  id String @id @default(uuid())
+  userId String
+  showId String
+  status Status
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  user User @relation(fields: [userId], references: [id])
+  show Show @relation(fields: [showId], references: [id])
+  ticket Ticket[]
+}
+
+model Ticket {
+  id String @id @default(uuid())
+  bookingId String
+  seatId String
+  price Decimal @db.Decimal(10,2)
+  booking Booking @relation(fields: [bookingId], references: [id])
+  seat Seat @relation(fields: [seatId], references: [id])
+  @@unique([bookingId, seatId])
+}
+
