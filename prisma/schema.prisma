@@ -19,10 +19,10 @@ model User {
  password String 
  created_at DateTime @default(now())
  updated_at DateTime @updatedAt
- bookings Booking[]
+ //bookings Booking[]
 }
 
-enum EventType {
+/*enum EventType {
   MOVIE
   CONCERT
   PLAY
@@ -136,5 +136,5 @@ model Ticket {
   booking Booking @relation(fields: [bookingId], references: [id])
   seat Seat @relation(fields: [seatId], references: [id])
   @@unique([bookingId, seatId])
-}
+} */
 
