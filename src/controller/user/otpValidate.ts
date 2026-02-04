@@ -48,7 +48,7 @@ export default async function otpValidate(req:Request, res:Response, next:NextFu
                 created_at:true,
                 updated_at:true,
             }
-        })
+        });
 
         radis.del(`otp:${email}`);
         radis.del(key);

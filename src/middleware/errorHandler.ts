@@ -1,6 +1,7 @@
 import type {Request, Response, NextFunction} from 'express'
 import { ZodError } from 'zod'
 import schemaError from '../utils/schemaError'
+import { Prisma } from '@prisma/client'
 
 export default function errorHandler(err:any, req:Request, res:Response, next:NextFunction){
 
@@ -9,6 +10,15 @@ export default function errorHandler(err:any, req:Request, res:Response, next:Ne
             status:false,
             msg: schemaError(err)
         })
+    }
+
+    else if(err instanceof Prisma.PrismaClientKnownRequestError){
+        if(err.code === "P2025") {
+            return res.status(404).json({
+                status:false,
+                msg:"resource not found"
+            })
+        }
     }
 
     else if(err.statusCode) {
