@@ -12,17 +12,31 @@ datasource db {
   provider = "postgresql"
 }
 
+enum Role {
+  ADMIN
+  USER
+  ORGANIZER
+}
+
+enum Gender {
+  MALE 
+  FEMALE
+  TRANSGENDER
+}
+
 model User {
  id String @id @default(uuid())
- name String 
+ name String? @default("Guest") 
  email String @unique 
- password String 
+ role Role @default(USER)
+ gender Gender?
  created_at DateTime @default(now())
  updated_at DateTime @updatedAt
  //bookings Booking[]
 }
 
-/*enum EventType {
+/*
+enum EventType {
   MOVIE
   CONCERT
   PLAY
@@ -41,12 +55,14 @@ model Event {
   durationMin  Int
   eventType EventType
   lang Lang
+  url String?
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
-  shows Show[]
+  //shows Show[]
   @@index([title, eventType, lang])
 }
 
+/*
 
 model Venue {
   id String @id @default(uuid())

@@ -1,13 +1,10 @@
 import { Router } from "express";
-import validation from "../middleware/validation";
-import { signUpSchema } from "../schema/userSchema/signUpSchema";
-import { logInSchema } from "../schema/userSchema/logInSchema";
-import signUp from "../controller/user/signUp";
-import logIn from "../controller/user/logIn"
-
+import otpGen from "../controller/user/otpGen";
+import otpValidate from "../controller/user/otpValidate"
 const router = Router();
 
-router.post("/auth/signup", validation(signUpSchema), signUp);
-router.post("/auth/login", validation(logInSchema), logIn)
+
+router.post("/auth/generate-otp", otpGen);
+router.post("/auth/validate-otp", otpValidate);
 
 export default router;

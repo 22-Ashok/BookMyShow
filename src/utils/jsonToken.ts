@@ -3,6 +3,7 @@ import AppError from './appError';
 
 interface TokenData{
     id:string,
+    role:string
 }
 
 export function jsonToken(data:TokenData) : string {
