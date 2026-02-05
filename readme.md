@@ -1,3 +1,6 @@
-## user route  (auth using otp based)
-  - POST /auth/otp-generate   (send otp to gmail) starts timmer for 2 min
-  - POST /auth/otp-validate   (if success send jwt and add user to db) 
+## user route  (auth otp based)
+  - POST /auth/opt-generate - user sign in through otp.
+  - POST /auth/otp-validate - user validate through opt. time limit of otp live is 2min (max 5 incorrect otp user input for security).
+  - path /users - user edit their profile
+
+## event route 

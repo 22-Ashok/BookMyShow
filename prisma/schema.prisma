@@ -35,7 +35,7 @@ model User {
  //bookings Booking[]
 }
 
-/*
+
 enum EventType {
   MOVIE
   CONCERT
@@ -58,11 +58,9 @@ model Event {
   url String?
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
-  //shows Show[]
+  shows Show[]
   @@index([title, eventType, lang])
 }
-
-/*
 
 model Venue {
   id String @id @default(uuid())
@@ -72,7 +70,7 @@ model Venue {
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
   shows Show[]
-  seats Seat[]
+ // seats Seat[]
   @@index([name, city])
 }
 
@@ -87,11 +85,12 @@ model Show {
   updated_at DateTime @updatedAt
   venue Venue @relation(fields: [venueId], references: [id])
   event Event @relation(fields: [eventId], references: [id])
-  showBooking Booking[]
-  showSeat ShowSeat[]
+  //showBooking Booking[]
+  //showSeat ShowSeat[]
   @@unique([eventId, venueId, startTime])
 }
 
+/*
 enum SeatType {
   REGULAR
   PREMIUM

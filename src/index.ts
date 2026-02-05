@@ -1,13 +1,18 @@
 import "dotenv/config"
 import express from "express"
-import userRouter from "./routes/userRoutes"
+import userRoutes from "./routes/userRoutes"
+import eventRoutes from "./routes/eventRoutes"
+import venueRoutes from "./routes/venueRoutes"
 import errorHandler from "./middleware/errorHandler";
 import {initMail} from "./lib/mail"
 
 const app = express();
 
 app.use(express.json());
-app.use("/", userRouter);
+app.use("/", userRoutes);
+app.use("/", eventRoutes);
+app.use("/", venueRoutes);
+
 
 // error handler route
 app.use(errorHandler)

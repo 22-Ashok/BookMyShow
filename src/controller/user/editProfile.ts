@@ -4,7 +4,7 @@ import {prisma} from "../../lib/prisma"
 export default async function editProfile(req:Request, res:Response, next:NextFunction){
    try{
     const id = req.user.id;
-
+    console.log(req.body);
      const user = await prisma.user.update({
         where : {id},
         data: req.body,

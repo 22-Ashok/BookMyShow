@@ -1,11 +1,11 @@
 import { Router } from "express";
 import userAuth from "../middleware/userAuth";
 import validation from "../middleware/validation";
-import eventSchrma from "../schema/eventSchema";
-import postEvent from "../controller/event/postEvent";
+import addVenue from "../controller/venue/addVenue";
+import venueSchema from "../schema/venueSchema";
 
 const router = Router();
 
-router.post("/events",userAuth, validation(eventSchrma), postEvent);
+router.post("/venues", userAuth, validation(venueSchema), addVenue);
 
 export default router;
